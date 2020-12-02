@@ -1,6 +1,5 @@
 import Node as nd
 
-
 # Fonction permettant de créer la table de fréquence
 def build_Frequency_Table(text):
 
@@ -27,7 +26,7 @@ def getCaractQuelconque():
     return ";"
 
 
-# Fonction permettant d'ajouter un noeud à une liste par ordre croissant de fréquences
+# Fonction permettant d'ajouter un noeud à une liste (de noeud ou d'autre liste) par ordre croissant de fréquences
 def sortedAdd(node, tree):
 
     for nodes in tree:
@@ -74,7 +73,71 @@ def build_Huffman_Tree(frequency_table):
 # Table de hachage permettant d'avoir en un appel, le code correspondant à un caracètre
 def get_Dict_Huffman(tree, char_code):
 
-    pass
+    leaves_list = nd.leaves_list
+    code = ""
+
+    # On récupère les données dans la liste des feuilles
+    isLeftOrRight, leaf = getFromLeavesList(leaves_list, char_code)
+    code += str(isLeftOrRight)
+
+    while leaf.frequency != tree[0].frequency:
+
+        parentLeaf = leaf.parent
+
+        if parentLeaf.left == leaf:
+            code += str(0)
+        else:
+            code += str(1)
+
+        leaf = parentLeaf
+
+    # On renvoie la chaine de caractère inversée car on est parti de la feuille pour remonter à la racine
+    return code[len(code)::-1]
 
 
+# Permet de trouver un caractère dans la liste des feuilles, retourne si il est a gauche (0) ou à droite (1) et la feuille concernée
+def getFromLeavesList(leaves_list, char_code):
 
+    for leaf in leaves_list:
+        if not type(leaf.left) is nd.Node:
+
+            if leaf.left[0] == char_code:
+                return 0, leaf
+
+        if not type(leaf.right) is nd.Node:
+
+            if leaf.right[0] == char_code:
+                return 1, leaf
+
+
+# Permet d'afficher l'arbre d'Huffman
+def print_Huffman(tree, frequency_table):
+
+    tree_to_print = ""
+
+    for elements in frequency_table:
+        tree_to_print += "("+chr(elements[0])+","+str(elements[1])+") : "+get_Dict_Huffman(tree, elements[0])+"\n"
+
+    print(tree_to_print)
+
+
+# Code la chaine de caractère passé en paramètre
+def encode_Text(text, tree):
+
+    encodeText = ""
+
+    for char in text:
+        encodeText += get_Dict_Huffman(tree, ord(char))
+
+    return encodeText
+
+
+# Permet d'obtenir la table de hachage (un caractère et son code)
+def getHachageTable(tree, frequency_table):
+
+    table = []
+
+    for elements in frequency_table:
+        table.append([chr(elements[0]),get_Dict_Huffman(tree, elements[0])])
+
+    return table
