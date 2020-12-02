@@ -21,5 +21,3 @@ def decode(encodeText, frequency_table):
                 code = ""
 
     return decodeText
-
-

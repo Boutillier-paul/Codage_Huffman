@@ -49,6 +49,3 @@ class Node:
         # Si le noeud possède au moins une feuille, on l'ajoute à la liste des feuilles
         if not isinstance(left, Node) or not isinstance(right, Node):
             leaves_list.append(self)
-
-        
-        

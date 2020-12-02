@@ -17,4 +17,3 @@ def write(name, key, value):
     f = open(name, 'w')
     json.dump(x, f)
     f.close()
-

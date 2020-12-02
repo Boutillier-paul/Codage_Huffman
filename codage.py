@@ -31,14 +31,17 @@ def sortedAdd(node, tree):
 
     for nodes in tree:
 
+        # Si l'élément est un noeud
         if type(nodes) is nd.Node:
             if node.frequency <= nodes.frequency:
                 tree.insert(tree.index(nodes),node)
                 break
+            # Si l'élément à une fréquence inférieure au noeud et que cet élément est dernier alors on ajoute simplement le noeud à la fin de la liste
             if node.frequency > nodes.frequency and tree.index(nodes) == len(tree)-1:
                 tree.append(node)
                 break
 
+        # Si l'élément n'est pas un noeud
         else:
             if node.frequency <= nodes[1]:
                 tree.insert(tree.index(nodes),node)
@@ -53,7 +56,7 @@ def build_Huffman_Tree(frequency_table):
     # Copie de la table de fréquences
     tree = frequency_table
 
-    # On boucle tant que l'arbre ne contient pas qu'un seul élément, qui sera un noeud
+    # On boucle tant que l'arbre ne contient pas qu'un seul élément, qui sera le noeud racine
     while len(tree)>1:
 
         # Création des noeuds et de leurs feuilles
@@ -70,7 +73,7 @@ def build_Huffman_Tree(frequency_table):
     return tree
 
 
-# Table de hachage permettant d'avoir en un appel, le code correspondant à un caracètre
+# Permettant d'avoir en un appel, le code correspondant à un caracètre
 def get_Dict_Huffman(tree, char_code):
 
     leaves_list = nd.leaves_list
@@ -95,7 +98,7 @@ def get_Dict_Huffman(tree, char_code):
     return code[len(code)::-1]
 
 
-# Permet de trouver un caractère dans la liste des feuilles, retourne si il est a gauche (0) ou à droite (1) et la feuille concernée
+# Permet de trouver un caractère dans la liste des feuilles, retourne la feuille concernée et s'il est a gauche (0) ou à droite (1) de celle-ci
 def getFromLeavesList(leaves_list, char_code):
 
     for leaf in leaves_list:
